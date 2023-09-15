@@ -1,0 +1,5 @@
+__pycache__
+env/
+litrevu/db.sqlite3
+litrevu/.idea/
+.DS_Store
