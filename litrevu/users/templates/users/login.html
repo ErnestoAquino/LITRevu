@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'users/base.html' %}
 
-</body>
-</html>
+{% block title %}
+Log in
+{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <!-- Left column for registration -->
+                <div class="column is-half has-text-centered">
+                    <div class="box">
+                        <h3 class="title has-text-black">Sign up</h3>
+                        <p>Don't have an account? Sign up now!</p>
+                        <br>
+                        <a href="" class="button is-info custom-contrast">Sign up</a>
+                    </div>
+                </div>
+                <!-- Right column for the login form -->
+                <div class="column is-half">
+                    <h1 class="title has-text-black has-text-centered">Log in</h1>
+                    <div class="box">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="field">
+                                <label class="label" for="username-input">Username</label>
+                                <div class="control has-icons-left">
+                                    <input id="username-input" class="input" type="text" placeholder="Username" name="{{ form.username.name }}" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                           <div class="field">
+                                <label class="label" for="password-input">Password</label>
+                                <div class="control has-icons-left">
+                                    <input id="password-input" class="input" type="password" placeholder="Password" name="{{ form.password.name }}" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                           </div>
+
+
+                            <div class="field">
+                                <button type="submit" class="button is-block is-info is-fullwidth">Log in</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
