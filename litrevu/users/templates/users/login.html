@@ -8,6 +8,14 @@ Log in
 <section class="hero is-fullheight is-primary">
     <div class="hero-body">
         <div class="container">
+
+            <!-- Message to display if there is an error with the connection credentials -->
+            {% if message %}
+                <div class="notification is-warning">
+                    {{ message }}
+                </div>
+            {% endif %}
+
             <div class="columns is-vcentered">
                 <!-- Left column for registration -->
                 <div class="column is-half has-text-centered">
