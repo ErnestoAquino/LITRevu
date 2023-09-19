@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'users/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'users/styles.css' %}">
+    <title>LITRevu - {% block title %}{% endblock %} </title>
+</head>
+
+<body>
+    <div class="main-container">
+        <main>
+            {% block content %}{% endblock %}
+
+        </main>
+
+        <footer class="footer has-background-success-light">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>LITRevu</strong> 2023 All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

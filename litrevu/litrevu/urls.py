@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path
 
 import users.views
+import feed.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", users.views.login_page, name = "login"),
+    path("", users.views.LoginPage.as_view(), name = "login"),
     path("logout/", users.views.logout_user, name = "logout"),
+    path("home/", feed.views.home, name = "home"),
 ]

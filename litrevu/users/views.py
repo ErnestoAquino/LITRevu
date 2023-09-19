@@ -3,14 +3,23 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.views.generic import View
 from users import forms
 
 
-def login_page(request):
-    form = forms.LoginForm()
-    message = ''
-    if request.method == 'POST':
-        form = forms.LoginForm(request.POST)
+class LoginPage(View):
+    form_class = forms.LoginForm
+    template_name = 'users/login.html'
+
+    def get(self, request):
+        form = self.form_class()
+        message = ''
+        return render(request, self.template_name,
+                      {"form": form, 'message': message})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        message = ''
         if form.is_valid():
             user = authenticate(
                 username = form.cleaned_data["username"],
@@ -18,12 +27,11 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                message = f"Hello, {user.username}! You are logged in."
+                return redirect("home")
             else:
                 message = f"Invalid credentials."
-
-    return render(request, 'users/login.html',
-                  {"form": form, 'message': message})
+        return render(request, self.template_name,
+                      {"form": form, 'message': message})
 
 
 def logout_user(request):

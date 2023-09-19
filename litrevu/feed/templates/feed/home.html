@@ -1,0 +1,12 @@
+{% extends "feed/base.html" %}
+
+{% block content %}
+    <section class="section">
+        <div class="container">
+            <div class="notification is-primary">
+                <strong class="has-text-black">You are logged in as {{ request.user }}</strong>
+                <a href="{% url "logout" %}" class="button is-light ml-3">Log Out</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
