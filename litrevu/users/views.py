@@ -1,5 +1,7 @@
-from django.contrib.auth import login
 from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from django.shortcuts import render
 from users import forms
 
@@ -22,3 +24,8 @@ def login_page(request):
 
     return render(request, 'users/login.html',
                   {"form": form, 'message': message})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("login")

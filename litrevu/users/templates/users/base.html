@@ -14,6 +14,18 @@
     <div class="main-container">
         <main>
             {% block content %}{% endblock %}
+
+            {% if user.is_authenticated %}
+                <section class="section">
+                    <div class="container">
+                        <div class="notification is-primary">
+                            <strong class="has-text-black">You are logged in as {{ request.user }}</strong>
+                                <a href="{% url "logout" %}" class="button is-light ml-3">Log Out</a>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
         </main>
 
         <footer class="footer has-background-success-light">
