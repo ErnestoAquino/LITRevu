@@ -34,6 +34,16 @@ class LoginPage(View):
                       {"form": form, 'message': message})
 
 
-def logout_user(request):
-    logout(request)
-    return redirect("login")
+class LogoutUser(View):
+    def get(self, request):
+        logout(request)
+        return redirect("login")
+
+
+def signup_page(request):
+    form = forms.SignupForm()
+    if request.method == "POST":
+        form = forms.SignupForm(request.POST)
+        if form.is_valid():
+            pass
+    return render(request, 'users/signup.html', context = {'form': form})

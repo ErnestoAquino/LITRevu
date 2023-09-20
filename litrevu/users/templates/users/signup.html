@@ -1,0 +1,64 @@
+{% extends 'users/base.html' %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <h1 class="title has-text-black has-text-centered">Sign up</h1>
+                    <div class="box">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="field">
+                                <label class="label" for="username-input">Username</label>
+                                <div class="control has-icons-left">
+                                    <input id="username-input" class="input" type="text" placeholder="Username" name="{{ form.username.name }}" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="password1-input">Password</label>
+                                <div class="control has-icons-left">
+                                    <input id="password1-input" class="input" type="password" placeholder="Password" name="{{ form.password1.name }}" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="field">
+                                <label class="label" for="password2-input">Confirm Password</label>
+                                <div class="control has-icons-left">
+                                    <input id="password2-input" class="input" type="password" placeholder="Confirm Password" name="{{ form.password2.name }}" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="field is-grouped">
+                                <div class="control is-expanded">
+                                    <button type="submit" class="button is-info is-fullwidth">Sign up</button>
+                                </div>
+                                <div class="control is-expanded">
+                                    <a href="{% url 'login' %}" class="button is-light is-fullwidth">Go Back</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

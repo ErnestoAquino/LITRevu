@@ -23,6 +23,7 @@ import feed.views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", users.views.LoginPage.as_view(), name = "login"),
-    path("logout/", users.views.logout_user, name = "logout"),
+    path("signup/", users.views.signup_page, name = "signup"),
+    path("logout/", users.views.LogoutUser.as_view(), name = "logout"),
     path("home/", feed.views.home, name = "home"),
 ]
