@@ -18,11 +18,18 @@ Sign Up
                             <div class="field">
                                 <label class="label" for="username-input">Username</label>
                                 <div class="control has-icons-left">
-                                    <input id="username-input" class="input" type="text" placeholder="Username" name="{{ form.username.name }}" required>
+                                    <input id="username-input" class="input" type="text" placeholder="Username" name="{{ form.username.name }}" value="{{ form.username.value|default:'' }}" required>
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-user"></i>
                                     </span>
                                 </div>
+                                    {% if form.username.errors %}
+                                        <p class="help is-danger">
+                                            {% for error in form.username.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </p>
+                                    {% endif %}
                             </div>
 
                             <div class="field">
@@ -33,6 +40,9 @@ Sign Up
                                         <i class="fas fa-lock"></i>
                                     </span>
                                 </div>
+                                    {% if form.password1.errors %}
+                                        <p class="help is-danger">{{ form.password1.errors.0 }}</p>
+                                    {% endif %}
                             </div>
 
 
@@ -44,6 +54,9 @@ Sign Up
                                         <i class="fas fa-lock"></i>
                                     </span>
                                 </div>
+                                    {% if form.password2.errors %}
+                                        <p class="help is-danger">{{ form.password2.errors.0 }}</p>
+                                    {% endif %}
                             </div>
 
                             <div class="field is-grouped">
