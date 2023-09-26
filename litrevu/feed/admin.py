@@ -1,3 +1,6 @@
 from django.contrib import admin
+from feed.models import Ticket
+from feed.models import Review
 
-# Register your models here.
+admin.site.register(Ticket)
+admin.site.register(Review)
