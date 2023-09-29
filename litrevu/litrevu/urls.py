@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from feed.views import TicketCreatePage
 import users.views
 import feed.views
 
@@ -26,5 +27,5 @@ urlpatterns = [
     path("signup/", users.views.signup_page, name = "signup"),
     path("logout/", users.views.LogoutUser.as_view(), name = "logout"),
     path("home/", feed.views.HomePage.as_view(), name = "home"),
-    path("tickets/create/", feed.views.ticket_create, name = "ticket-create"),
+    path("tickets/create/", TicketCreatePage.as_view(), name = "ticket-create"),
 ]
