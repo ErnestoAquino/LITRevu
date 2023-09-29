@@ -1,23 +1,53 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="has-navbar-fixed-top">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'users/bulma.css' %}">
-    <link rel="stylesheet" href="{% static 'users/styles.css' %}">
+    <link rel="stylesheet" href="{% static  'users/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>LITRevu - {% block title %}{% endblock %} </title>
 </head>
 
 <body>
+
+    <nav class="navbar is-light is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <span class="navbar-item">
+                <strong> LITRevue </strong>
+            </span>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+
+            </div>
+
+            <div class="navbar-end">
+                <a class="navbar-item" href="{% url 'home' %}">
+                    Feed
+                </a>
+                <a class="navbar-item" href="#">
+                    Post
+                </a>
+                <a class="navbar-item" href="#">
+                    Abonnements
+                </a>
+                <a class="navbar-item" href="{% url 'logout' %}">
+                    Se déconnecter
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <div class="main-container">
         <main>
             {% block content %}{% endblock %}
-
         </main>
 
-        <footer class="footer has-background-success-light">
+        <footer class="footer has-background-success-light ">
             <div class="content has-text-centered">
                 <p>
                     <strong>LITRevu</strong> 2023 All rights reserved.
@@ -25,6 +55,7 @@
             </div>
         </footer>
     </div>
+<script src="{% static 'feed/js/script.js' %}"></script>
 </body>
 
 </html>
