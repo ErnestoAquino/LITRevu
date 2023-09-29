@@ -25,6 +25,6 @@ urlpatterns = [
     path("", users.views.LoginPage.as_view(), name = "login"),
     path("signup/", users.views.signup_page, name = "signup"),
     path("logout/", users.views.LogoutUser.as_view(), name = "logout"),
-    path("home/", feed.views.home, name = "home"),
+    path("home/", feed.views.HomePage.as_view(), name = "home"),
     path("tickets/create/", feed.views.ticket_create, name = "ticket-create"),
 ]
