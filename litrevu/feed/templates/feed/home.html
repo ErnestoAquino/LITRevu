@@ -1,12 +1,30 @@
 {% extends "feed/base.html" %}
 
+{% block title %}
+Feed
+{% endblock %}
+
 {% block content %}
-    <section class="section">
+
+<div class="section pt-10 pb-10 has-background-primary">
+    <div class="container has-text-centered">
+        <a href="#" class="button is-info custom-contrast mr-6">Create a review</a>
+        <a href="{% url 'ticket-create' %}" class="button is-info custom-contrast">Request a review</a>
+    </div>
+</div>
+
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
         <div class="container">
-            <div class="notification is-primary">
-                <strong class="has-text-black">You are logged in as {{ request.user }}</strong>
-                <a href="{% url "logout" %}" class="button is-light ml-3">Log Out</a>
-            </div>
+            <h1 class="title has-text-centered has-text-black-bis">Feed</h1>
+            <!-- Section for the feed of tickets and reviews -->
+            <section class="section">
+                <div class="container">
+                    <!-- Here add the logic to display the feed of tickets and reviews -->
+                </div>
+            </section>
+
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
