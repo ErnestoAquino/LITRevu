@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
 
 from feed.views import TicketCreatePage
+from feed.views import TicketUpdateView
 import users.views
 import feed.views
+from litrevu import settings
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,4 +32,8 @@ urlpatterns = [
     path("logout/", users.views.LogoutUser.as_view(), name = "logout"),
     path("home/", feed.views.HomePage.as_view(), name = "home"),
     path("tickets/create/", TicketCreatePage.as_view(), name = "ticket-create"),
+    path("tickets/<int:pk>/update/", TicketUpdateView.as_view(), name = "ticket-update")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
