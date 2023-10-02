@@ -1,0 +1,35 @@
+{% extends 'feed/base.html' %}
+
+{% block title %}
+Delete Ticket
+{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <h1 class="title has-text-black has-text-centered">Delete the ticket</h1>
+                    <div class="box">
+                        <p>Are you sure you want to delete the ticket <strong>{{ ticket.title }}</strong>?</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="field is-grouped mt-3">
+                                <div class="control is-expanded">
+                                    <button type="submit" class="button is-danger is-fullwidth">Yes, delete</button>
+                                </div>
+
+                                <div class="control is-expanded">
+                                    <a href="{% url 'ticket-update' pk=ticket.id %}" class="button is-light is-fullwidth">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
