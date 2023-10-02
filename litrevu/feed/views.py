@@ -4,11 +4,12 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
+# from django.shortcuts import get_object_or_404
+# from django.shortcuts import redirect
 from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
 from feed.forms import TicketForm
 from feed.models import Ticket
 
@@ -41,7 +42,7 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "feed/ticket_update.html"
     success_url = reverse_lazy("home")
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset = None):
         ticket = super().get_object(queryset)
         if ticket.user != self.request.user:
             raise PermissionDenied("You do not have permission to edit this ticket.")
@@ -49,3 +50,15 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+class TicketDeleteView(LoginRequiredMixin, DeleteView):
+    model = Ticket
+    template_name = "feed/ticket_delete.html"
+    success_url = reverse_lazy("home")
+
+    def get_object(self, queryset = None):
+        ticket = super().get_object(queryset)
+        if ticket.user != self.request.user:
+            raise PermissionDenied("You do not have permission to delete this ticket.")
+        return ticket
