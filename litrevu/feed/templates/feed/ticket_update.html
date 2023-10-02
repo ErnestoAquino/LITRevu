@@ -62,6 +62,7 @@ Update Ticket
                             <div class="file has-name">
                                 <label class="file-label">
                                     <input class="file-input" type="file" name="{{ form.image.name }}" id="image-input">
+
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
@@ -80,9 +81,15 @@ Update Ticket
                             {% endif %}
 
                             <div class="field is-grouped mt-3">
+
                                 <div class="control is-expanded">
                                     <button type="submit" class="button is-info is-fullwidth">Update Ticket</button>
                                 </div>
+
+                                <div class="control is-expanded">
+                                    <a href="{% url 'ticket-delete' pk=ticket.id %}" class="button is-danger is-fullwidth">Delete Ticket</a>
+                                </div>
+
                             </div>
                         </form>
                     </div>
