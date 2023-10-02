@@ -15,12 +15,30 @@ Feed
 
 <section class="hero is-fullheight is-primary">
     <div class="hero-body">
-        <div class="container">
-            <h1 class="title has-text-centered has-text-black-bis">Feed</h1>
+        <div class="container mt-0">
+{#            <h1 class="title has-text-centered has-text-black-bis mt-0">Feed</h1>#}
             <!-- Section for the feed of tickets and reviews -->
             <section class="section">
                 <div class="container">
-                    <!-- Here add the logic to display the feed of tickets and reviews -->
+                    <!-- Display the feed of tickets and reviews -->
+                    {% if user_tickets %}
+                        {% for ticket in user_tickets %}
+                            <div class="box">
+                                <a href="{% url 'ticket-update' pk=ticket.id %}" class="has-text-black-bis">
+                                    <h2 class="title is-4 has-text-black-bis">{{ ticket.title }}</h2>
+                                </a>
+
+                                <p>{{ ticket.description }}</p>
+                                {% if ticket.image %}
+                                    <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="width: 300px;">
+                                {% endif %}
+                                <br>
+                                <span class="has-text-grey-dark">{{ ticket.time_create|date:"F j, Y, P" }}</span>  <!-- Date: Sep 18, 2023, 7:30 p.m. -->
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <H1 class="is-size-4 has-text-centered has-text-grey-dark">You haven't created any tickets yet.</H1>
+                    {% endif %}
                 </div>
             </section>
 
