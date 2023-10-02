@@ -1,5 +1,6 @@
 __pycache__
 env/
+media/
 litrevu/db.sqlite3
 litrevu/.idea/
 .DS_Store
