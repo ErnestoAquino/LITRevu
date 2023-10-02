@@ -31,3 +31,12 @@ footer {
 .button.custom-contrast {
     background-color: rgb(45, 105, 180);
 }
+
+
+/* Feed: Fix the contrast issue of danger buttons. */
+/*Very low contrast (3.61:1): Very low contrast between text and background colors.*/
+
+.button.is-danger {
+    background-color: #c00; /* A darker red */
+    color: #fff; /* White text */
+}
