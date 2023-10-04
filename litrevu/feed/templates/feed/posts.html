@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "feed/base.html" %}
+
+{% block title %}
+Posts
+{% endblock %}
+
+{% block content %}
+
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
+        <div class="container mt-0">
+            <!-- Section for the feed of tickets and reviews -->
+            <section class="section">
+                <div class="container">
+
+                    <!-- Display User's Tickets -->
+                    <h1 class="title is-0 has-text-centered has-text-black-bis">Your Posts</h1>
+                    {% if user_tickets %}
+                        {% for ticket in user_tickets %}
+                            <div class="box">
+                                <p><strong>You posted a ticket - {{ ticket.time_create|date:"F j, Y, P" }}</strong></p>
+                                <h2 class="title is-4 has-text-black-bis">{{ ticket.title }}</h2>
+                                <p>{{ ticket.description }}</p>
+                                {% if ticket.image %}
+                                    <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="width: 300px;">
+                                {% endif %}
+
+                                <!-- Update and Delete Buttons -->
+                                <div class="buttons is-right">
+                                    <a href="{% url 'ticket-update' ticket.id %}" class="button is-link is-light">Update</a>
+                                    <a href="{% url 'ticket-delete' ticket.id %}" class="button is-danger is-light">Delete</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="is-size-4 has-text-centered has-text-grey-dark">You haven't posted any tickets yet.</p>
+                    {% endif %}
+
+                    <!-- Display User's Reviews -->
+                    {% if user_reviews %}
+                        {% for review in user_reviews %}
+                            <div class="box">
+                                <p><strong>You posted a review - {{ review.time_create|date:"F j, Y, P" }}</strong></p>
+                                <h2 class="title is-4 has-text-black-bis">{{ review.headline }}</h2>
+                                <p>Rating: {{ review.rating }}/5</p>
+                                <p>{{ review.body }}</p>
+                                <hr>
+                                <h3 class="title is-6 has-text-grey-dark">Ticket Being Reviewed:</h3>
+                                <h4 class="title is-5 has-text-black-bis">{{ review.ticket.title }}</h4>
+                                <p>{{ review.ticket.description }}</p>
+                                {% if review.ticket.image %}
+                                    <img src="{{ review.ticket.image.url }}" alt="{{ review.ticket.title }}"
+                                         style="width: 300px;">
+                                {% endif %}
+
+                                <!-- Update and Delete Buttons -->
+                                <div class="buttons is-right">
+                                    <a href="{% url 'review-update' review.id %}" class="button is-link is-light">Update</a>
+                                    <a href="#" class="button is-danger is-light">Delete</a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="is-size-4 has-text-centered has-text-grey-dark">You haven't posted any reviews yet.</p>
+                    {% endif %}
+
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}
