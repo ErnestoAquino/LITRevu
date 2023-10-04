@@ -1,10 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'feed/base.html' %}
+
+{% block title %}
+Update Review
+{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight is-primary">
+    <div class="hero-head">
+        <div class="container mt-3">
+            <nav class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <a href="{% url 'posts' %}" class="button is-link">Go Back</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <h1 class="title has-text-black has-text-centered">Update Review</h1>
+
+                    <!-- Displaying the Ticket -->
+                    <div class="box">
+                        <h2 class="subtitle">Associated Ticket</h2>
+                        <p><strong>Title: </strong>{{ ticket.title }}</p>
+                        <p><strong>Description: </strong>{{ ticket.description }}</p>
+                        <p><img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" class="image"></p>
+                    </div>
+
+                    <!-- Review Update Form -->
+                    <div class="box">
+                        <form method="post">
+                            {% csrf_token %}
+                            <!-- Review Headline -->
+                            <div class="field">
+                                <label class="label" for="{{ form.headline.id_for_label }}">Headline</label>
+                                <div class="control has-icons-left">
+                                    <input id="{{ form.headline.id_for_label }}" class="input" type="text" placeholder="Headline" name="{{ form.headline.name }}" value="{{ form.headline.value|default:'' }}" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-heading"></i>
+                                    </span>
+                                </div>
+                                {% if form.headline.errors %}
+                                    <p class="help is-danger">
+                                        {% for error in form.headline.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Review Rating -->
+                            <div class="field">
+                                <fieldset>
+                                    <legend class="label">Rating</legend>
+                                    <div class="control">
+                                        {% for i in "012345" %}
+                                            <label class="radio" for="id_rating_{{ i }}">
+                                                <input type="radio" name="{{ form.rating.name }}" value="{{ i }}"
+                                                       id="id_rating_{{ i }}"
+                                                       {% if form.rating.value == i|add:0 %}checked{% endif %}>
+                                                {{ i }}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                    {% if form.rating.errors %}
+                                        <p class="help is-danger">{{ form.rating.errors.0 }}</p>
+                                    {% endif %}
+                                </fieldset>
+                            </div>
+
+                            <!-- Review Body -->
+                            <div class="field">
+                                <label class="label" for="{{ form.body.id_for_label }}">Body</label>
+                                <div class="control">
+                                    <textarea id="{{ form.body.id_for_label }}" class="textarea" placeholder="Body" name="{{ form.body.name }}" required>{{ form.body.value|default:'' }}</textarea>
+                                </div>
+                                {% if form.body.errors %}
+                                    <p class="help is-danger">{{ form.body.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Control Buttons -->
+                            <div class="field is-grouped mt-3">
+                                <div class="control is-expanded">
+                                    <button type="submit" class="button is-info is-fullwidth">Update Review</button>
+                                </div>
+
+                                <div class="control is-expanded">
+{#                                    <a href="{% url 'review-delete' pk=review.id %}" class="button is-danger is-fullwidth">Delete Review</a>#}
+                                    <a href="#" class="button is-danger is-fullwidth">Delete Review</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
