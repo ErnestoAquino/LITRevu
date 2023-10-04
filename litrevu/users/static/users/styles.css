@@ -33,10 +33,14 @@ footer {
 }
 
 
-/* Feed: Fix the contrast issue of danger buttons. */
-/*Very low contrast (3.61:1): Very low contrast between text and background colors.*/
-
+/* Feed: Address contrast problem with danger buttons. */
+/* Noted low contrast ratio (3.61:1): Insufficient contrast between text and background colors. */
 .button.is-danger {
     background-color: #c00; /* A darker red */
     color: #fff; /* White text */
+}
+
+/* Align the 'Review' text to the left in the Ticket creation and Form. */
+.left-align {
+    text-align: left;
 }
