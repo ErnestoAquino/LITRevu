@@ -21,6 +21,10 @@ from django.conf.urls.static import static
 from feed.views import TicketCreatePage
 from feed.views import TicketUpdateView
 from feed.views import TicketDeleteView
+
+from feed.views import ReviewUpdateView
+
+from feed.views import PostView
 import users.views
 import feed.views
 from litrevu import settings
@@ -32,9 +36,14 @@ urlpatterns = [
     path("signup/", users.views.signup_page, name = "signup"),
     path("logout/", users.views.LogoutUser.as_view(), name = "logout"),
     path("home/", feed.views.HomePage.as_view(), name = "home"),
+    path("posts/", PostView.as_view(), name = "posts"),
+
     path("tickets/create/", TicketCreatePage.as_view(), name = "ticket-create"),
+    path("tickets/create/with-review/", feed.views.CreateTicketAndReviewView.as_view(), name="ticket-review-create"),
     path("tickets/<int:pk>/update/", TicketUpdateView.as_view(), name = "ticket-update"),
     path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name = "ticket-delete"),
+
+    path("reviews/<int:pk>/update/", ReviewUpdateView.as_view(), name = "review-update"),
 ]
 
 if settings.DEBUG:
