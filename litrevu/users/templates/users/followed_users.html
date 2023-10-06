@@ -1,0 +1,92 @@
+{% extends 'feed/base.html' %}
+
+{% block title %}Abonnements{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-half">
+
+                {% if messages %}
+                    <div class="container" style="margin-bottom: 15px;">
+                        {% for message in messages %}
+                            <!--The following 'div' element will display messages dynamically based on the provided message tags.
+                                Each message can have different styling, such as 'error' or 'success'.-->
+                            <div class="notification {% if message.tags %}is-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}">
+                            <button class="delete"></button>
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- 1st Section: Follow Other Users -->
+                    <h1 class="title has-text-black">Follow Other Users</h1>
+                    <div class="box">
+                        <form method="post" action="{% url 'follow_user' %}">
+                            {% csrf_token %}
+                            <div class="field">
+                                <label class="label" for="username_to_follow">Username</label>
+                                <div class="control has-icons-left">
+                                    <input id="username_to_follow" class="input" type="text" placeholder="Username" name="username_to_follow" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-info is-fullwidth">Follow</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 2nd Section: Subscriptions -->
+                    <h2 class="title has-text-black">Subscriptions</h2>
+                    <div class="box">
+                        <table class="table is-fullwidth is-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for follow in followed_users %}
+                                <tr>
+                                    <td>{{ follow.followed_user.username }}</td>
+                                    <td><a class="button is-danger is-light is-small" href="{% url 'unfollow_user' follow.followed_user.id %}">Unsubscribe</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <!-- 3rd Section: Subscribers -->
+                    <h2 class="title has-text-black">Subscribers</h2>
+                    <div class="box">
+                        <table class="table is-fullwidth is-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for follow in request.user.followed_by.all %}
+                                <tr>
+                                    <td>{{ follow.user.username }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
