@@ -1,0 +1,37 @@
+{% extends "feed/base.html" %}
+
+{% block title %}
+Feed
+{% endblock %}
+
+{% block content %}
+<div class="section pt-10 pb-10 has-background-primary">
+    <div class="container has-text-centered">
+        <a href="{% url 'ticket-review-create'%}" class="button is-info custom-contrast mr-6">Create a review</a>
+        <a href="{% url 'ticket-create' %}" class="button is-info custom-contrast">Request a review</a>
+    </div>
+</div>
+
+<section class="hero is-fullheight is-primary">
+    <div class="hero-body">
+        <div class="container mt-0">
+            <section class="section">
+                <div class="container">
+                    <!-- Display the feed of tickets and reviews -->
+                    {% if posts %}
+                        {% for post in posts %}
+                            {% if post.content_type == 'TICKET' %}
+                                {% include 'snippets/ticket_snippet.html' %}
+                            {% elif post.content_type == 'REVIEW' %}
+                                {% include 'snippets/review_snippet.html' %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <h1 class="is-size-4 has-text-centered has-text-grey-dark">No posts found.</h1>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}
