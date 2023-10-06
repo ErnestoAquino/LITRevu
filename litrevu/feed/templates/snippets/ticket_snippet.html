@@ -1,0 +1,15 @@
+<div class="box">
+    <p><strong>{{ post.user.username }} posted a ticket - {{ post.time_create|date:"F j, Y, P" }}</strong></p>
+    <h2 class="title is-4 has-text-black-bis">{{ post.title }}</h2>
+    <p>{{ post.description }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 300px;">
+    {% endif %}
+    <!-- Si deseas agregar funcionalidad para que los usuarios editen/eliminen, asegúrate de validar si el post es del usuario actual -->
+    {% if post.user == user %}
+        <div class="buttons is-right">
+            <a href="{% url 'ticket-update' post.id %}" class="button is-link is-light">Update</a>
+            <a href="{% url 'ticket-delete' post.id %}" class="button is-danger is-light">Delete</a>
+        </div>
+    {% endif %}
+</div>
