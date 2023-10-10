@@ -159,7 +159,7 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset = None):
         review = super().get_object(queryset)
-        if review.ticket.user != self.request.user:
+        if review.user != self.request.user:
             raise PermissionDenied("You do not have permission to edit this review")
         return review
 
