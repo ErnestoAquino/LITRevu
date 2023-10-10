@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.db.models import CharField
@@ -18,20 +18,24 @@ from feed.models import Review
 
 
 class FeedView(LoginRequiredMixin, View):
+    def get_reviewed_ticket_ids(self, user):
+        return Review.objects.filter(user = user).values_list('ticket_id', flat = True)
     def get_users_viewable_reviews(self, user):
         followed_users = user.following.values_list('followed_user', flat = True)
         return Review.objects.filter(user_id__in = followed_users)
-
     def get_users_viewable_tickets(self, user):
         followed_users = user.following.values_list('followed_user', flat = True)
         return Ticket.objects.filter(user_id__in = followed_users)
 
     def get(self, request, *args, **kwargs):
+
         reviews = self.get_users_viewable_reviews(request.user)
         reviews = reviews.annotate(content_type = Value('REVIEW', CharField()))
 
         tickets = self.get_users_viewable_tickets(request.user)
         tickets = tickets.annotate(content_type = Value('TICKET', CharField()))
+
+        reviewed_ticket_ids = self.get_reviewed_ticket_ids(request.user)
 
         posts = sorted(
             chain(reviews, tickets),
@@ -39,7 +43,9 @@ class FeedView(LoginRequiredMixin, View):
             reverse = True
         )
 
-        return render(request, 'feed/feed.html', context = {'posts': posts})
+        return render(request,
+                      'feed/feed.html',
+                      context = {'posts': posts, 'reviewed_ticket_ids': reviewed_ticket_ids})
 
 
 @method_decorator(login_required, name = "dispatch")
@@ -120,6 +126,29 @@ class PostView(View):
         user_tickets = Ticket.objects.filter(user = request.user).order_by('-time_create')
         user_reviews = Review.objects.filter(user = request.user).order_by('-time_create')
         return render(request, self.template_name, {"user_tickets": user_tickets, "user_reviews": user_reviews})
+
+
+class ReviewCreateView(LoginRequiredMixin, CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = "feed/review_create.html"
+    success_url = reverse_lazy("posts")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ticket'] = get_object_or_404(Ticket, pk=self.kwargs.get('ticket_id'))
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.ticket = get_object_or_404(Ticket, pk=self.kwargs.get('ticket_id'))
+        return super().form_valid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        ticket = get_object_or_404(Ticket, pk=kwargs.get('ticket_id'))
+        if ticket.user == request.user:
+            raise PermissionDenied("You cannot review your own ticket")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
