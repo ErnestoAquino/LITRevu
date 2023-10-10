@@ -5,11 +5,10 @@
     {% if post.image %}
         <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 300px;">
     {% endif %}
-    <!-- Si deseas agregar funcionalidad para que los usuarios editen/eliminen, asegúrate de validar si el post es del usuario actual -->
-    {% if post.user == user %}
+
+    {% if post.id not in reviewed_ticket_ids %}
         <div class="buttons is-right">
-            <a href="{% url 'ticket-update' post.id %}" class="button is-link is-light">Update</a>
-            <a href="{% url 'ticket-delete' post.id %}" class="button is-danger is-light">Delete</a>
+            <a href="{% url 'review-create' ticket_id=post.id %}" class="button is-link is-light">Add Review</a>
         </div>
     {% endif %}
 </div>
