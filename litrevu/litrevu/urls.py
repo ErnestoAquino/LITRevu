@@ -23,6 +23,7 @@ from feed.views import FeedView
 from feed.views import TicketCreateView
 from feed.views import TicketUpdateView
 from feed.views import TicketDeleteView
+from feed.views import CreateTicketAndReviewView
 
 from feed.views import ReviewCreateView
 from feed.views import ReviewUpdateView
@@ -45,7 +46,7 @@ urlpatterns = [
     path('abonnements/', users.views.FollowedUsersView.as_view(), name = 'abonnements'),
 
     path("tickets/create/", TicketCreateView.as_view(), name = "ticket-create"),
-    path("tickets/create/with-review/", feed.views.CreateTicketAndReviewView.as_view(), name = "ticket-review-create"),
+    path("tickets/create/with-review/", CreateTicketAndReviewView.as_view(), name = "ticket-review-create"),
     path("tickets/<int:pk>/update/", TicketUpdateView.as_view(), name = "ticket-update"),
     path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name = "ticket-delete"),
 
