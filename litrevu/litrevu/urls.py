@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 from feed.views import FeedView
 
-from feed.views import TicketCreatePage
+from feed.views import TicketCreateView
 from feed.views import TicketUpdateView
 from feed.views import TicketDeleteView
 
@@ -44,7 +44,7 @@ urlpatterns = [
     path('unfollow/<int:pk>/', users.views.UnfollowUserView.as_view(), name = 'unfollow_user'),
     path('abonnements/', users.views.FollowedUsersView.as_view(), name = 'abonnements'),
 
-    path("tickets/create/", TicketCreatePage.as_view(), name = "ticket-create"),
+    path("tickets/create/", TicketCreateView.as_view(), name = "ticket-create"),
     path("tickets/create/with-review/", feed.views.CreateTicketAndReviewView.as_view(), name = "ticket-review-create"),
     path("tickets/<int:pk>/update/", TicketUpdateView.as_view(), name = "ticket-update"),
     path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name = "ticket-delete"),
