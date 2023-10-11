@@ -1,30 +1,51 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-from django.contrib.auth import logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 from django.views.generic import View
+from django.views.generic import FormView
 from django.db import IntegrityError
 from users import forms
 from users.models import UserFollows, CustomUser
 
 
-class LoginPage(View):
+class LoginView(View):
+    """
+    View to manage the user login functionality.
+
+    'LoginView' handles both GET and POST requests related to the login page.
+    During a GET request, an empty login form is presented. During a POST
+    request, the submitted credentials are authenticated. If they are valid,
+    the user is logged in and redirected to the feed; otherwise, an error
+    message is displayed.
+    """
     form_class = forms.LoginForm
     template_name = 'users/login.html'
 
     def get(self, request):
+        """
+        Handle GET requests to the login page.
+
+        Renders the login page with an unpopulated login form.
+        """
         form = self.form_class()
         message = ''
         return render(request, self.template_name,
                       {"form": form, 'message': message})
 
     def post(self, request):
+        """
+        Handle POST requests to the login page.
+
+        Authenticates the user's credentials. If they are valid, the user
+        is logged in and redirected to the feed. If they are invalid, an
+        error message is displayed.
+        """
         form = self.form_class(request.POST)
         message = ''
         if form.is_valid():
@@ -41,21 +62,46 @@ class LoginPage(View):
                       {"form": form, 'message': message})
 
 
-class LogoutUser(View):
-    def get(self, request):
-        logout(request)
-        return redirect("login")
+class LogoutUserView(LogoutView):
+    """
+    View to handle user logout functionality with automatic redirection.
+
+    `LogoutUserView` inherits from Django's `LogoutView` and is aimed to
+    facilitate straightforward user logout actions, followed by a redirection
+    to a specified page - in this case, the login page.
+    """
+    next_page = reverse_lazy('login')
 
 
-def signup_page(request):
-    form = forms.SignupForm()
-    if request.method == "POST":
-        form = forms.SignupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect(settings.LOGIN_REDIRECT_URL)
-    return render(request, 'users/signup.html', context = {'form': form})
+class SignupView(FormView):
+    """
+    View to manage the user signup functionality.
+
+    `SignupPageView` facilitates the creation of a new user account through
+    a signup form. Upon receiving a GET request, it renders the signup page
+    with the form. When handling a POST request, it attempts to create a new user
+    and log them in. Upon successful account creation and login, the user is
+    redirected to the URL specified as the successful login destination.
+    """
+    form_class = forms.SignupForm
+    template_name = "users/signup.html"
+    success_url = settings.LOGIN_REDIRECT_URL
+
+    def form_valid(self, form):
+        """
+         Handle POST requests with valid form data.
+
+        Creates a user, logs them in, and redirects to 'success_url'.
+        """
+
+        # Create a new user instance and save it to the database.
+        user = form.save()
+
+        # Log the user in.
+        login(self.request, user)
+
+        # Redirect to the URL specified as the login destination in settings.
+        return super().form_valid(form)
 
 
 class FollowedUsersView(LoginRequiredMixin, View):
