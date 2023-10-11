@@ -25,7 +25,7 @@
                     <!-- 1st Section: Follow Other Users -->
                     <h1 class="title has-text-black">Follow Other Users</h1>
                     <div class="box">
-                        <form method="post" action="{% url 'follow_user' %}">
+                        <form method="post" action="{% url 'follow-user' %}">
                             {% csrf_token %}
                             <div class="field">
                                 <label class="label" for="username_to_follow">Username</label>
@@ -58,7 +58,7 @@
                                 {% for follow in followed_users %}
                                 <tr>
                                     <td>{{ follow.followed_user.username }}</td>
-                                    <td><a class="button is-danger is-light is-small" href="{% url 'unfollow_user' follow.followed_user.id %}">Unsubscribe</a></td>
+                                    <td><a class="button is-danger is-light is-small" href="{% url 'unfollow-user' follow.followed_user.id %}">Unsubscribe</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
