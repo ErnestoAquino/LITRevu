@@ -44,3 +44,21 @@ footer {
 .left-align {
     text-align: left;
 }
+
+/* Ticket in review. Address contrast problem. */
+.has-background-primary-light-custom {
+    background-color: hsl(142, 52%, 90%);
+}
+
+.has-background-grey-lighter-custom {
+    background-color: hsl(0, 0%, 90%);
+}
+
+.has-background-link-light-custom {
+    background-color: hsl(219, 70%, 92%);
+}
+
+/* Define the color of the stars that display the rating. */
+.star-icon {
+    color: #003366;
+}

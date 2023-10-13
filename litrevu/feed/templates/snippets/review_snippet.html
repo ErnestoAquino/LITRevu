@@ -1,16 +1,29 @@
-<div class="box">
+<div class="box mt-4">
     <p><strong>{{ post.user.username }} posted a review - {{ post.time_create|date:"F j, Y, P" }}</strong></p>
-    <h2 class="title is-4 has-text-black-bis">{{ post.headline }}</h2>
-    <p>Rating: {{ post.rating }}/5</p>
+
+    <div class="is-flex">
+        <h2 class="title is-4 has-text-black-bis mr-3">{{ post.headline }}</h2>
+        <!-- Display the rating with stars -->
+        <div class="rating">
+            {% for i in "12345" %}
+                {% if post.rating >= forloop.counter %}
+                    <i class="fas fa-star fa-rotate-90 star-icon"></i> <!-- filled star -->
+                {% else %}
+                    <i class="far fa-star fa-rotate-90 star-icon"></i> <!-- empty star -->
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <br>
     <p>{{ post.body }}</p>
-    <hr>
-    <h3 class="title is-6 has-text-grey-dark">Ticket Being Reviewed:</h3>
-    <h4 class="title is-5 has-text-black-bis">{{ post.ticket.title }}</h4>
-    <p>{{ post.ticket.description }}</p>
-    {% if post.ticket.image %}
-        <img src="{{ post.ticket.image.url }}" alt="{{ post.ticket.title }}" style="width: 300px;">
-    {% endif %}
-    <!-- Si deseas agregar funcionalidad para que los usuarios editen/eliminen, asegúrate de validar si el post es del usuario actual -->
+    <div class="box has-background-grey-lighter-custom mt-4">
+        <h3 class="title is-6 has-text-grey-dark">Ticket Being Reviewed:</h3>
+        <h4 class="title is-5 has-text-black-bis">{{ post.ticket.title }}</h4>
+        <p>{{ post.ticket.description }}</p>
+        {% if post.ticket.image %}
+            <img src="{{ post.ticket.image.url }}" alt="{{ post.ticket.title }}" style="width: 300px;">
+        {% endif %}
+    </div>
     {% if post.user == user %}
         <div class="buttons is-right">
             <a href="{% url 'review-update' post.id %}" class="button is-link is-light">Update</a>

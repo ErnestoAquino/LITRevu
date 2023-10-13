@@ -85,7 +85,8 @@ class SignupView(FormView):
     """
     form_class = forms.SignupForm
     template_name = "users/signup.html"
-    success_url = settings.LOGIN_REDIRECT_URL
+    # success_url = settings.LOGIN_REDIRECT_URL
+    success_url = reverse_lazy("feed")
 
     def form_valid(self, form):
         """
