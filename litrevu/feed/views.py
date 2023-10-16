@@ -36,7 +36,7 @@ class FeedView(LoginRequiredMixin, View):
         QuerySet of Integers
             IDs of tickets that have been reviewed by the user.
         """
-        return Review.objects.filter(user = user).values_list('ticket_id', flat = True)
+        return Review.objects.filter(user=user).values_list('ticket_id', flat=True)
 
     def get_users_viewable_reviews(self, user):
         """
@@ -50,8 +50,8 @@ class FeedView(LoginRequiredMixin, View):
         QuerySet of Review objects
             Reviews created by users that are followed by the specified user.
         """
-        followed_users = user.following.values_list('followed_user', flat = True)
-        return Review.objects.filter(user_id__in = followed_users)
+        followed_users = user.following.values_list('followed_user', flat=True)
+        return Review.objects.filter(user_id__in=followed_users)
 
     def get_users_viewable_tickets(self, user):
         """
@@ -65,15 +65,15 @@ class FeedView(LoginRequiredMixin, View):
         QuerySet of Ticket objects
             Tickets created by users that are followed by the specified user.
         """
-        followed_users = user.following.values_list('followed_user', flat = True)
-        return Ticket.objects.filter(user_id__in = followed_users)
+        followed_users = user.following.values_list('followed_user', flat=True)
+        return Ticket.objects.filter(user_id__in=followed_users)
 
     def get(self, request, *args, **kwargs):
         # Retrieve and annotate reviews and tickets visible to the user
         reviews = self.get_users_viewable_reviews(request.user)
-        reviews = reviews.annotate(content_type = Value('REVIEW', CharField()))
+        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
         tickets = self.get_users_viewable_tickets(request.user)
-        tickets = tickets.annotate(content_type = Value('TICKET', CharField()))
+        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
 
         # Get IDs of tickets reviewed by the user
         reviewed_ticket_ids = self.get_reviewed_ticket_ids(request.user)
@@ -81,14 +81,14 @@ class FeedView(LoginRequiredMixin, View):
         # Merge and sort the posts (reviews and tickets)
         posts = sorted(
             chain(reviews, tickets),
-            key = lambda post: post.time_create,
-            reverse = True
+            key=lambda post: post.time_create,
+            reverse=True
         )
 
         # Render the content on the user's feed
         return render(request,
                       'feed/feed.html',
-                      context = {'posts': posts, 'reviewed_ticket_ids': reviewed_ticket_ids})
+                      context={'posts': posts, 'reviewed_ticket_ids': reviewed_ticket_ids})
 
 
 class TicketCreateView(LoginRequiredMixin, FormView):
@@ -106,7 +106,7 @@ class TicketCreateView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         # Save form data into a ticket instance without committing to the database yet
-        ticket = form.save(commit = False)
+        ticket = form.save(commit=False)
 
         # Associate the current user as the ticket's creator
         ticket.user = self.request.user
@@ -132,7 +132,7 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "feed/ticket_update.html"
     success_url = reverse_lazy("posts")
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         # Retrieve the ticket instance from the database
         ticket = super().get_object(queryset)
 
@@ -158,7 +158,7 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "feed/ticket_delete.html"
     success_url = reverse_lazy("posts")
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         # Retrieve the ticket instance
         ticket = super().get_object(queryset)
 
@@ -198,7 +198,7 @@ class CreateTicketAndReviewView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         # Create, but don't save the new ticket instance yet
-        ticket = form.save(commit = False)
+        ticket = form.save(commit=False)
 
         # Assign the current user to the new ticket instance
         ticket.user = self.request.user
@@ -213,7 +213,7 @@ class CreateTicketAndReviewView(LoginRequiredMixin, FormView):
         if form2.is_valid():
 
             # Create, but don't save the new review instance yet
-            review = form2.save(commit = False)
+            review = form2.save(commit=False)
 
             # Assign the current user and associated ticket to the new review instance
             review.ticket = ticket
@@ -241,10 +241,10 @@ class PostView(LoginRequiredMixin, View):
 
     def get(self, request):
         # Retrieve tickets created by the user, ordered by creation time
-        user_tickets = Ticket.objects.filter(user = request.user).order_by('-time_create')
+        user_tickets = Ticket.objects.filter(user=request.user).order_by('-time_create')
 
         # Retrieve reviews created by the user, ordered by creation time
-        user_reviews = Review.objects.filter(user = request.user).order_by('-time_create')
+        user_reviews = Review.objects.filter(user=request.user).order_by('-time_create')
 
         # Render the page with the fetched tickets and reviews
         return render(request, self.template_name, {"user_tickets": user_tickets, "user_reviews": user_reviews})
@@ -270,20 +270,20 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
 
         # Add related ticket to context data
-        context['ticket'] = get_object_or_404(Ticket, pk = self.kwargs.get('ticket_id'))
+        context['ticket'] = get_object_or_404(Ticket, pk=self.kwargs.get('ticket_id'))
         return context
 
     def form_valid(self, form):
         # Assign the requesting user and related ticket to the form instance
         form.instance.user = self.request.user
-        form.instance.ticket = get_object_or_404(Ticket, pk = self.kwargs.get('ticket_id'))
+        form.instance.ticket = get_object_or_404(Ticket, pk=self.kwargs.get('ticket_id'))
 
         # Proceed to default form_valid behavior (save and redirect)
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         # Retrieve related ticket
-        ticket = get_object_or_404(Ticket, pk = kwargs.get('ticket_id'))
+        ticket = get_object_or_404(Ticket, pk=kwargs.get('ticket_id'))
 
         # Check if user is trying to review their own ticket
         if ticket.user == request.user:
@@ -307,7 +307,7 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "feed/review_update.html"
     success_url = reverse_lazy("posts")
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         # Retrieve the review instance
         review = super().get_object(queryset)
         # Validate that the user requesting the update is the review's creator
@@ -346,7 +346,7 @@ class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("posts")
 
     # Retrieve the review instance
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         review = super().get_object(queryset)
 
         # Validate that the user requesting the deletion is the review's creator

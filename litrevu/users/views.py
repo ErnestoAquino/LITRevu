@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib import messages
@@ -50,14 +49,14 @@ class LoginView(View):
         message = ''
         if form.is_valid():
             user = authenticate(
-                username = form.cleaned_data["username"],
-                password = form.cleaned_data["password"]
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password"]
             )
             if user is not None:
                 login(request, user)
                 return redirect("feed")
             else:
-                message = f"Invalid credentials."
+                message = "Invalid credentials."
         return render(request, self.template_name,
                       {"form": form, 'message': message})
 
