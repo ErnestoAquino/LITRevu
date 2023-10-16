@@ -1,5 +1,19 @@
-# LITRevu
+# LITRevu: A Book and Literature Review Platform
+_Project 9 of the "Parcours Developper d'Application Python" series._
 
+## Overview
+LITRevu is a dynamic platform that empowers users to:
+- **Request Reviews**: Create a request (billet) for book or literature article reviews.
+- **Read and Publish Reviews**: Engage with the community by reading and sharing reviews on literature.
+- **Stay Updated**: Keep track of reviews and billets from followed users in a real-time feed.
+- **User Engagement**: Follow users, manage your billets and reviews, and interact with your followers.
+
+
+## Technical Specifications
+- **Framework**: Built on Django.
+- **Database**: Local SQLite database (db.sqlite3 included in the repository).
+- **Design**: User Interface in line with provided wireframes, with a clean and minimalistic design.
+- **Code Standards**: Adheres to PEP8 guidelines.
 
 ## Installation
 
@@ -32,7 +46,7 @@ env\Scripts\activate
 
 **Start the server with:**
 ```
-python litrevu/manage.py runserver
+python manage.py runserver
 ```
 
 **Visit the following URL in your browser:**
