@@ -32,7 +32,7 @@ env\Scripts\activate
 
 **Start the server with:**
 ```
-python manage.py runserver
+python litrevu/manage.py runserver
 ```
 
 **Visit the following URL in your browser:**
