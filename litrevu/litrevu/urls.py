@@ -39,23 +39,23 @@ from litrevu import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", LoginView.as_view(), name = "login"),
-    path("signup/", SignupView.as_view(), name = "signup"),
-    path("logout/", LogoutUserView.as_view(), name = "logout"),
-    path("feed/", FeedView.as_view(), name = "feed"),
-    path("posts/", PostView.as_view(), name = "posts"),
-    path('follow/', FollowUserView.as_view(), name = 'follow-user'),
-    path('unfollow/<int:pk>/', UnfollowUserView.as_view(), name = 'unfollow-user'),
-    path('abonnements/', FollowedUsersView.as_view(), name = 'abonnements'),
+    path("", LoginView.as_view(), name="login"),
+    path("signup/", SignupView.as_view(), name="signup"),
+    path("logout/", LogoutUserView.as_view(), name="logout"),
+    path("feed/", FeedView.as_view(), name="feed"),
+    path("posts/", PostView.as_view(), name="posts"),
+    path('follow/', FollowUserView.as_view(), name='follow-user'),
+    path('unfollow/<int:pk>/', UnfollowUserView.as_view(), name='unfollow-user'),
+    path('abonnements/', FollowedUsersView.as_view(), name='abonnements'),
 
-    path("tickets/create/", TicketCreateView.as_view(), name = "ticket-create"),
-    path("tickets/create/with-review/", CreateTicketAndReviewView.as_view(), name = "ticket-review-create"),
-    path("tickets/<int:pk>/update/", TicketUpdateView.as_view(), name = "ticket-update"),
-    path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name = "ticket-delete"),
-    path("reviews/create/<int:ticket_id>/", ReviewCreateView.as_view(), name = "review-create"),
-    path("reviews/<int:pk>/update/", ReviewUpdateView.as_view(), name = "review-update"),
-    path("reviews/<int:pk>/delete/", ReviewDeleteView.as_view(), name = "review-delete"),
+    path("tickets/create/", TicketCreateView.as_view(), name="ticket-create"),
+    path("tickets/create/with-review/", CreateTicketAndReviewView.as_view(), name="ticket-review-create"),
+    path("tickets/<int:pk>/update/", TicketUpdateView.as_view(), name="ticket-update"),
+    path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name="ticket-delete"),
+    path("reviews/create/<int:ticket_id>/", ReviewCreateView.as_view(), name="review-create"),
+    path("reviews/<int:pk>/update/", ReviewUpdateView.as_view(), name="review-update"),
+    path("reviews/<int:pk>/delete/", ReviewDeleteView.as_view(), name="review-delete"),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
