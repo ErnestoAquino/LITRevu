@@ -6,6 +6,8 @@ from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_POST
 from django.views.generic import View
 from django.views.generic import FormView
 from django.db import IntegrityError
@@ -37,6 +39,7 @@ class LoginView(View):
         return render(request, self.template_name,
                       {"form": form, 'message': message})
 
+    @method_decorator(require_POST)
     def post(self, request):
         """
         Handle POST requests to the login page.
@@ -125,7 +128,7 @@ class FollowedUsersView(LoginRequiredMixin, View):
                       {'followed_users': followed_users})
 
 
-class FollowUserView(View):
+class FollowUserView(LoginRequiredMixin, View):
     """
     View to handle user-following actions.
 
@@ -140,6 +143,8 @@ class FollowUserView(View):
         Processes POST requests, attempting to create a following relationship
         and providing user feedback via messages.
     """
+
+    @method_decorator(require_POST)
     def post(self, request, *args, **kwargs):
         # Retrieve the username to follow from the POST data.
         username_to_follow = request.POST.get('username_to_follow')
@@ -168,7 +173,7 @@ class FollowUserView(View):
         return redirect('abonnements')
 
 
-class UnfollowUserView(View):
+class UnfollowUserView(LoginRequiredMixin, View):
     """
     View to handle the action of unfollowing a user.
 
@@ -177,7 +182,8 @@ class UnfollowUserView(View):
     and delete the corresponding follow relationship.
     """
 
-    def get(self, request, pk, *args, **kwargs):
+    @method_decorator(require_POST)
+    def post(self, request, pk, *args, **kwargs):
         follow = UserFollows.objects.filter(user=request.user, followed_user_id=pk).first()
         # Check if the following relationship is found.
         if follow:
