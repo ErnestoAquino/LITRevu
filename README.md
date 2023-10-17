@@ -45,7 +45,6 @@ env\Scripts\activate
 ```
 
 **Install the requirements:**
-For macOS and Linux:
 ```
 pip install -r requirements.txt
 ```
