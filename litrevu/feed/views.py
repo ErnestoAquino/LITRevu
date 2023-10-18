@@ -257,8 +257,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
     View for creating a new review.
 
     `ReviewCreateView` is responsible for handling the creation of a new Review
-    instance ensuring that only authenticated users can create a review and
-    enforcing that a user cannot create a review for their own ticket. The view
+    instance ensuring that only authenticated users can create a review. The view
     manages form rendering, context data preparation, and object creation upon
     valid form submission.
     """
@@ -282,17 +281,6 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
 
         # Proceed to default form_valid behavior (save and redirect)
         return super().form_valid(form)
-
-    def dispatch(self, request, *args, **kwargs):
-        # Retrieve related ticket
-        ticket = get_object_or_404(Ticket, pk=kwargs.get('ticket_id'))
-
-        # Check if user is trying to review their own ticket
-        if ticket.user == request.user:
-            raise PermissionDenied("You cannot review your own ticket")
-
-        # Proceed to default dispatch behavior
-        return super().dispatch(request, *args, **kwargs)
 
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
