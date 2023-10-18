@@ -3,7 +3,7 @@
         {% if post.user == user %}
             You posted a ticket
         {% else %}
-            {{ post.user.username }} posted a review
+            {{ post.user.username }} posted a ticket
         {% endif %}
         - {{ post.time_create|date:"F j, Y, P" }}
     </strong></p>
