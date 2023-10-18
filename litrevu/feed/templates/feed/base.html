@@ -15,9 +15,9 @@
 
     <nav class="navbar is-link is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="{% url 'feed' %}">
+            <div class="navbar-item">
                 <p class="is-white">LITRevue</p>
-            </a>
+            </div>
         </div>
 
         <div id="navbarBasicExample" class="navbar-menu">
@@ -33,10 +33,10 @@
                     Post
                 </a>
                 <a class="navbar-item" href="{% url 'abonnements' %}">
-                    Abonnements
+                    Subscriptions
                 </a>
                 <a class="navbar-item" href="{% url 'logout' %}">
-                    Se déconnecter
+                    Log out
                 </a>
             </div>
         </div>
