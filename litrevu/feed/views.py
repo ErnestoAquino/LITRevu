@@ -50,7 +50,8 @@ class FeedView(LoginRequiredMixin, View):
         QuerySet of Review objects
             Reviews created by users that are followed by the specified user.
         """
-        followed_users = user.following.values_list('followed_user', flat=True)
+        followed_users = list(user.following.values_list('followed_user', flat=True))
+        followed_users.append(user.id)
         return Review.objects.filter(user_id__in=followed_users)
 
     def get_users_viewable_tickets(self, user):
@@ -65,7 +66,8 @@ class FeedView(LoginRequiredMixin, View):
         QuerySet of Ticket objects
             Tickets created by users that are followed by the specified user.
         """
-        followed_users = user.following.values_list('followed_user', flat=True)
+        followed_users = list(user.following.values_list('followed_user', flat=True))
+        followed_users.append(user.id)
         return Ticket.objects.filter(user_id__in=followed_users)
 
     def get(self, request, *args, **kwargs):
