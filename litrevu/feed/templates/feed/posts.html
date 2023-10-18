@@ -16,6 +16,7 @@ Posts
                     <!-- Display User's Tickets -->
                     <h1 class="title is-1 has-text-centered has-text-grey-darker">Your Posts</h1> <br>
                     {% if user_tickets %}
+                        <h2 class="title is-5 has-text-centered has-text-grey-darker">Your Tickets</h2> <br>
                         {% for ticket in user_tickets %}
                             <div class="box">
                                 <p><strong>You posted a ticket - {{ ticket.time_create|date:"F j, Y, P" }}</strong></p>
@@ -33,11 +34,12 @@ Posts
                             </div>
                         {% endfor %}
                     {% else %}
-                        <p class="is-size-4 has-text-centered has-text-grey-dark">You haven't posted any tickets yet.</p><br>
+                        <p class="is-size-4 has-text-centered has-text-grey-dark">You haven't posted any tickets yet.</p><br><br>
                     {% endif %}
 
                     <!-- Display User's Reviews -->
                     {% if user_reviews %}
+                        <h2 class="title is-4 has-text-centered has-text-grey-darker">Your Reviews</h2>
                         {% for review in user_reviews %}
                             <div class="box">
 
