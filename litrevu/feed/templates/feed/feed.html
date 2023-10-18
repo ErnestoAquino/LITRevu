@@ -7,9 +7,9 @@ Feed
 {% block content %}
 <div class="section pt-10 pb-10 has-background-primary">
     <div class="container has-text-centered">
-{#        <a href="{% url 'ticket-review-create'%}" class="button is-info custom-contrast mr-6">Create a review</a>#}
+        <!--Hidden header to address the 'Missing first level heading' issue. -->
+        <h1 class="is-hidden">Feed</h1>
         <a href="{% url 'ticket-review-create'%}" class="button is-info is-light is-medium is-outlined mr-6">Create a review</a>
-{#        <a href="{% url 'ticket-create' %}" class="button is-info custom-contrast">Request a review</a>#}
         <a href="{% url 'ticket-create' %}" class="button is-info is-light is-medium is-outlined">Request a review</a>
     </div>
 </div>
