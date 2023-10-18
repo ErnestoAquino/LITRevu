@@ -1,5 +1,13 @@
 <div class="box">
-    <p><strong>{{ post.user.username }} posted a ticket - {{ post.time_create|date:"F j, Y, P" }}</strong></p>
+    <p><strong>
+        {% if post.user == user %}
+            You posted a ticket
+        {% else %}
+            {{ post.user.username }} posted a review
+        {% endif %}
+        - {{ post.time_create|date:"F j, Y, P" }}
+    </strong></p>
+
     <h2 class="title is-4 has-text-black-bis">{{ post.title }}</h2>
     <p>{{ post.description }}</p>
     {% if post.image %}
